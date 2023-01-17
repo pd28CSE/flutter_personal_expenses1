@@ -20,6 +20,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -132,6 +133,8 @@ class _HomeState extends State<_Home> {
   }
 
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final appBar = AppBar(
       title: Text('App Bar'),
       // titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle!.copyWith(
@@ -146,45 +149,57 @@ class _HomeState extends State<_Home> {
         ),
       ],
     );
+    final txListWidget = Container(
+      height: (MediaQuery.of(context).size.height -
+              MediaQuery.of(context).padding.top -
+              appBar.preferredSize.height) *
+          0.7,
+      child: TransactionList(
+          transactions: _transactions, deleteTransaction: _deleteTransaction),
+    );
+
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(_showChart == false ? 'Show Chart' : 'Hide Chart'),
-                Switch(
-                    // activeTrackColor: Colors.grey,
-                    // inactiveTrackColor: Colors.red,
-                    // activeColor: Colors.blue,
-                    // inactiveThumbColor: Colors.green,
-                    value: _showChart,
-                    onChanged: (value) {
-                      setState(() {
-                        _showChart = value;
-                      });
-                    }),
-              ],
-            ),
-            _showChart == true
-                ? Container(
-                    height: (MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).padding.top -
-                            appBar.preferredSize.height) *
-                        0.3,
-                    child: Chart(recentTransactions: _transactions),
-                  )
-                : Container(
-                    height: (MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).padding.top -
-                            appBar.preferredSize.height) *
-                        0.7,
-                    child: TransactionList(
-                        transactions: _transactions,
-                        deleteTransaction: _deleteTransaction),
-                  ),
+            if (isLandscape == true)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(_showChart == false ? 'Show Chart' : 'Hide Chart'),
+                  Switch(
+                      // activeTrackColor: Colors.grey,
+                      // inactiveTrackColor: Colors.red,
+                      // activeColor: Colors.blue,
+                      // inactiveThumbColor: Colors.green,
+                      value: _showChart,
+                      onChanged: (value) {
+                        setState(() {
+                          _showChart = value;
+                        });
+                      }),
+                ],
+              ),
+            if (isLandscape == false)
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).padding.top -
+                        appBar.preferredSize.height) *
+                    0.3,
+                child: Chart(recentTransactions: _transactions),
+              ),
+            if (isLandscape == false) txListWidget,
+            if (isLandscape == true)
+              _showChart == true
+                  ? Container(
+                      height: (MediaQuery.of(context).size.height -
+                              MediaQuery.of(context).padding.top -
+                              appBar.preferredSize.height) *
+                          0.7,
+                      child: Chart(recentTransactions: _transactions),
+                    )
+                  : txListWidget,
           ],
         ),
       ),
