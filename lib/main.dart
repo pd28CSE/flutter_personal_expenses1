@@ -98,6 +98,7 @@ class _HomeState extends State<_Home> {
     Transaction(title: 'title 4', amount: 548, date: DateTime.now()),
     Transaction(title: 'title 5', amount: 549, date: DateTime.now()),
   ];
+  bool _showChart = false;
 
   void _addNewTransaction(String nwTitle, double nwAmount, DateTime nwDate) {
     final Transaction nwTransaction =
@@ -150,22 +151,40 @@ class _HomeState extends State<_Home> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.top -
-                      appBar.preferredSize.height) *
-                  0.3,
-              child: Chart(recentTransactions: _transactions),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(_showChart == false ? 'Show Chart' : 'Hide Chart'),
+                Switch(
+                    // activeTrackColor: Colors.grey,
+                    // inactiveTrackColor: Colors.red,
+                    // activeColor: Colors.blue,
+                    // inactiveThumbColor: Colors.green,
+                    value: _showChart,
+                    onChanged: (value) {
+                      setState(() {
+                        _showChart = value;
+                      });
+                    }),
+              ],
             ),
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.top -
-                      appBar.preferredSize.height) *
-                  0.7,
-              child: TransactionList(
-                  transactions: _transactions,
-                  deleteTransaction: _deleteTransaction),
-            ),
+            _showChart == true
+                ? Container(
+                    height: (MediaQuery.of(context).size.height -
+                            MediaQuery.of(context).padding.top -
+                            appBar.preferredSize.height) *
+                        0.3,
+                    child: Chart(recentTransactions: _transactions),
+                  )
+                : Container(
+                    height: (MediaQuery.of(context).size.height -
+                            MediaQuery.of(context).padding.top -
+                            appBar.preferredSize.height) *
+                        0.7,
+                    child: TransactionList(
+                        transactions: _transactions,
+                        deleteTransaction: _deleteTransaction),
+                  ),
           ],
         ),
       ),
