@@ -145,11 +145,21 @@ class _HomeState extends State<_Home> {
         child: Column(
           children: [
             Container(
+              height: (MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top -
+                      appBar.preferredSize.height) *
+                  0.34,
               child: Chart(recentTransactions: _transactions),
             ),
-            TransactionList(
-                transactions: _transactions,
-                deleteTransaction: _deleteTransaction),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top -
+                      appBar.preferredSize.height) *
+                  0.66,
+              child: TransactionList(
+                  transactions: _transactions,
+                  deleteTransaction: _deleteTransaction),
+            ),
           ],
         ),
       ),
