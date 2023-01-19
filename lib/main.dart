@@ -161,7 +161,7 @@ class _HomeState extends State<_Home> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(_showChart == false ? 'Show Chart' : 'Hide Chart'),
-                  Switch(
+                  Switch.adaptive(
                       // activeTrackColor: Colors.grey,
                       // inactiveTrackColor: Colors.red,
                       // activeColor: Colors.blue,
