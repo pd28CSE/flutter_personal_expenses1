@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 class NewTransaction extends StatefulWidget {
   final Function addNewTransaction;
 
-  NewTransaction({super.key, required this.addNewTransaction});
+  const NewTransaction({super.key, required this.addNewTransaction});
 
   @override
   State<NewTransaction> createState() => _NewTransactionState();
@@ -47,72 +47,83 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          TextField(
-            keyboardType: TextInputType.text,
-            decoration: InputDecoration(
-              labelText: 'Title',
-              hintText: 'Hello',
-            ),
-            // onChanged: (value) {
-            //   _titleInput = value;
-            //   // print(_titleInput);
-            // },
-            controller: _titleController,
-            onSubmitted: (_) => _submitData(),
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
           ),
-          SizedBox(
-            height: 5,
-          ),
-          TextField(
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: 'Amount',
-              hintText: '10.00',
-            ),
-            // onChanged: (value) {
-            //   _amountInput = value;
-            //   // print(_amountInput);
-            // },
-            controller: _amountController,
-            onSubmitted: (_) => _submitData(),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            height: 70,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  _selectedDate == null
-                      ? 'No Date Choosen!'
-                      : DateFormat.yMMMMd().format(_selectedDate as DateTime),
-                  style: TextStyle(color: Theme.of(context).primaryColor),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(
+                  labelText: 'Title',
+                  hintText: 'Hello',
                 ),
-                TextButton(
-                  onPressed: _showDate,
-                  child: Text(
-                    'Choose Date.',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.bold,
+                // onChanged: (value) {
+                //   _titleInput = value;
+                //   // print(_titleInput);
+                // },
+                controller: _titleController,
+                onSubmitted: (_) => _submitData(),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              TextField(
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Amount',
+                  hintText: '10.00',
+                ),
+                // onChanged: (value) {
+                //   _amountInput = value;
+                //   // print(_amountInput);
+                // },
+                controller: _amountController,
+                onSubmitted: (_) => _submitData(),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                height: 75,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      _selectedDate == null
+                          ? 'No Date Choosen!'
+                          : DateFormat.yMMMMd()
+                              .format(_selectedDate as DateTime),
+                      style: TextStyle(color: Theme.of(context).primaryColor),
                     ),
-                  ),
-                )
-              ],
-            ),
+                    TextButton(
+                      onPressed: _showDate,
+                      child: Text(
+                        'Choose Date.',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: _submitData,
+                child: const Text(
+                  'Add Transaction',
+                ),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: _submitData,
-            child: Text(
-              'Add Transaction',
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.purple,
         accentColor: Colors.amber,
         fontFamily: 'Quicksand',
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
             fontFamily: 'OpenSans',
             fontSize: 25,
@@ -36,16 +36,16 @@ class MyApp extends StatelessWidget {
           ),
         ),
         textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(
+              headline6: const TextStyle(
                 fontFamily: 'OpenSans',
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
-              button: TextStyle(
+              button: const TextStyle(
                 color: Colors.white,
               ),
             ),
-        inputDecorationTheme: InputDecorationTheme(
+        inputDecorationTheme: const InputDecorationTheme(
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
               color: Colors.blue,
@@ -90,7 +90,7 @@ class _HomeState extends State<_Home> {
     Transaction(
         title: 'title 3',
         amount: 5457,
-        date: DateTime.now().subtract(Duration(days: 2))),
+        date: DateTime.now().subtract(const Duration(days: 2))),
     Transaction(title: 'title 4', amount: 548, date: DateTime.now()),
     Transaction(title: 'title 5', amount: 549, date: DateTime.now()),
     Transaction(title: 'title 1', amount: 545, date: DateTime.now()),
@@ -132,30 +132,23 @@ class _HomeState extends State<_Home> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
     final appBar = AppBar(
-      title: Text('App Bar'),
+      title: const Text('App Bar'),
       // titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle!.copyWith(
       //       color: Colors.amber,
       //     ),
       actions: [
         IconButton(
+          icon: const Icon(Icons.add),
           onPressed: () {
             startAddNewTransaction(context);
           },
-          icon: Icon(Icons.add),
         ),
       ],
-    );
-    final txListWidget = Container(
-      height: (MediaQuery.of(context).size.height -
-              MediaQuery.of(context).padding.top -
-              appBar.preferredSize.height) *
-          0.7,
-      child: TransactionList(
-          transactions: _transactions, deleteTransaction: _deleteTransaction),
     );
 
     return Scaffold(
@@ -183,23 +176,42 @@ class _HomeState extends State<_Home> {
               ),
             if (isLandscape == false)
               Container(
-                height: (MediaQuery.of(context).size.height -
-                        MediaQuery.of(context).padding.top -
+                height: (mediaQuery.size.height -
+                        mediaQuery.padding.top -
                         appBar.preferredSize.height) *
                     0.3,
                 child: Chart(recentTransactions: _transactions),
               ),
-            if (isLandscape == false) txListWidget,
+            if (isLandscape == false)
+              Container(
+                height: (mediaQuery.size.height -
+                        mediaQuery.padding.top -
+                        appBar.preferredSize.height) *
+                    0.7,
+                child: TransactionList(
+                  transactions: _transactions,
+                  deleteTransaction: _deleteTransaction,
+                ),
+              ),
             if (isLandscape == true)
               _showChart == true
                   ? Container(
-                      height: (MediaQuery.of(context).size.height -
-                              MediaQuery.of(context).padding.top -
+                      height: (mediaQuery.size.height -
+                              mediaQuery.padding.top -
                               appBar.preferredSize.height) *
                           0.7,
                       child: Chart(recentTransactions: _transactions),
                     )
-                  : txListWidget,
+                  : Container(
+                      height: (mediaQuery.size.height -
+                              mediaQuery.padding.top -
+                              appBar.preferredSize.height) *
+                          0.8,
+                      child: TransactionList(
+                        transactions: _transactions,
+                        deleteTransaction: _deleteTransaction,
+                      ),
+                    ),
           ],
         ),
       ),
@@ -207,7 +219,7 @@ class _HomeState extends State<_Home> {
         onPressed: () {
           startAddNewTransaction(context);
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
