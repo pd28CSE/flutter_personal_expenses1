@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -215,12 +217,16 @@ class _HomeState extends State<_Home> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          startAddNewTransaction(context);
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: Platform.isAndroid == true
+          ? FloatingActionButton(
+              onPressed: () {
+                startAddNewTransaction(context);
+              },
+              child: const Icon(Icons.add),
+            )
+          : const SizedBox(
+              height: 0,
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
