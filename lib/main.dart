@@ -134,6 +134,69 @@ class _HomeState extends State<_Home> {
     });
   }
 
+  List<Widget> _buildLandscapeContent(
+      MediaQueryData mediaQuery, AppBar appBar) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(_showChart == false ? 'Show Chart' : 'Hide Chart'),
+          Switch.adaptive(
+              // activeTrackColor: Colors.grey,
+              // inactiveTrackColor: Colors.red,
+              // activeColor: Colors.blue,
+              // inactiveThumbColor: Colors.green,
+              value: _showChart,
+              onChanged: (value) {
+                setState(() {
+                  _showChart = value;
+                });
+              }),
+        ],
+      ),
+      _showChart == true
+          ? Container(
+              height: (mediaQuery.size.height -
+                      mediaQuery.padding.top -
+                      appBar.preferredSize.height) *
+                  0.7,
+              child: Chart(recentTransactions: _transactions),
+            )
+          : Container(
+              height: (mediaQuery.size.height -
+                      mediaQuery.padding.top -
+                      appBar.preferredSize.height) *
+                  0.8,
+              child: TransactionList(
+                transactions: _transactions,
+                deleteTransaction: _deleteTransaction,
+              ),
+            ),
+    ];
+  }
+
+  List<Widget> _buildPortraitContent(MediaQueryData mediaQuery, AppBar appBar) {
+    return [
+      Container(
+        height: (mediaQuery.size.height -
+                mediaQuery.padding.top -
+                appBar.preferredSize.height) *
+            0.3,
+        child: Chart(recentTransactions: _transactions),
+      ),
+      Container(
+        height: (mediaQuery.size.height -
+                mediaQuery.padding.top -
+                appBar.preferredSize.height) *
+            0.7,
+        child: TransactionList(
+          transactions: _transactions,
+          deleteTransaction: _deleteTransaction,
+        ),
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -159,61 +222,9 @@ class _HomeState extends State<_Home> {
         child: Column(
           children: [
             if (isLandscape == true)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(_showChart == false ? 'Show Chart' : 'Hide Chart'),
-                  Switch.adaptive(
-                      // activeTrackColor: Colors.grey,
-                      // inactiveTrackColor: Colors.red,
-                      // activeColor: Colors.blue,
-                      // inactiveThumbColor: Colors.green,
-                      value: _showChart,
-                      onChanged: (value) {
-                        setState(() {
-                          _showChart = value;
-                        });
-                      }),
-                ],
-              ),
+              ..._buildLandscapeContent(mediaQuery, appBar),
             if (isLandscape == false)
-              Container(
-                height: (mediaQuery.size.height -
-                        mediaQuery.padding.top -
-                        appBar.preferredSize.height) *
-                    0.3,
-                child: Chart(recentTransactions: _transactions),
-              ),
-            if (isLandscape == false)
-              Container(
-                height: (mediaQuery.size.height -
-                        mediaQuery.padding.top -
-                        appBar.preferredSize.height) *
-                    0.7,
-                child: TransactionList(
-                  transactions: _transactions,
-                  deleteTransaction: _deleteTransaction,
-                ),
-              ),
-            if (isLandscape == true)
-              _showChart == true
-                  ? Container(
-                      height: (mediaQuery.size.height -
-                              mediaQuery.padding.top -
-                              appBar.preferredSize.height) *
-                          0.7,
-                      child: Chart(recentTransactions: _transactions),
-                    )
-                  : Container(
-                      height: (mediaQuery.size.height -
-                              mediaQuery.padding.top -
-                              appBar.preferredSize.height) *
-                          0.8,
-                      child: TransactionList(
-                        transactions: _transactions,
-                        deleteTransaction: _deleteTransaction,
-                      ),
-                    ),
+              ..._buildPortraitContent(mediaQuery, appBar),
           ],
         ),
       ),
