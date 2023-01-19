@@ -135,7 +135,7 @@ class _HomeState extends State<_Home> {
   }
 
   List<Widget> _buildLandscapeContent(
-      MediaQueryData mediaQuery, AppBar appBar) {
+      MediaQueryData mediaQuery, PreferredSizeWidget appBar) {
     return [
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -175,7 +175,8 @@ class _HomeState extends State<_Home> {
     ];
   }
 
-  List<Widget> _buildPortraitContent(MediaQueryData mediaQuery, AppBar appBar) {
+  List<Widget> _buildPortraitContent(
+      MediaQueryData mediaQuery, PreferredSizeWidget appBar) {
     return [
       Container(
         height: (mediaQuery.size.height -
@@ -197,11 +198,8 @@ class _HomeState extends State<_Home> {
     ];
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final appBar = AppBar(
+  PreferredSizeWidget buildAppBar() {
+    return AppBar(
       title: const Text('App Bar'),
       // titleTextStyle: Theme.of(context).appBarTheme.titleTextStyle!.copyWith(
       //       color: Colors.amber,
@@ -215,6 +213,13 @@ class _HomeState extends State<_Home> {
         ),
       ],
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+    final appBar = buildAppBar();
 
     return Scaffold(
       appBar: appBar,
