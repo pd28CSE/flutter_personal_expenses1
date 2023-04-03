@@ -24,3 +24,18 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+# UI
+
+## List View
+
+<img src="https://user-images.githubusercontent.com/71305747/229364395-0bda6c6a-7199-46ec-9552-85ab76f2daf8.png" width="50%" height="50%">
+
+## Add New Transaction
+
+<img src="https://user-images.githubusercontent.com/71305747/229364581-23e23503-f8e0-40da-bce7-19ac5792d4c7.png" width="50%" height="50%">
+
+## Date Time Picker
+
+<img src="https://user-images.githubusercontent.com/71305747/229364643-4b0716e7-e15d-4de6-b4af-747210695831.png" width="50%" height="50%">
+
